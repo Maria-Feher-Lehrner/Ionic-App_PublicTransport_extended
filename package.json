@@ -48,5 +48,5 @@
     "vite": "~5.2.0",
     "vitest": "^0.34.6"
   },
-  "description": "An Ionic project"
+  "description": "This is a basic Ionic classroom-project. Main objectives are to access geographical csv data via an API, render it into a sortable list and display it in a map. The chosen dataset is the entirety of all public transport stops in Vienna. Additional tasks are persistent data storage, adding items to the list and watching for location updates."
 }
