@@ -10,41 +10,32 @@ interface MapComponentProps {
     popUpText: string;
 }
 
-//Workaround, weil tiles nicht richtig gerendert haben --> triggert Resize
+//Workaround, because tiles are not getting rendered properly / map is misaligned --> triggers resize
 const ResizeMap = () => {
     const map = useMap();
+
     useEffect(() => {
-        // This ensures the map resizes correctly when the component mounts
-        const handleResize = () => {
-            if (map) {
-                map.invalidateSize();
-            }
-        };
-
-        // Add event listener for window resize
-        window.addEventListener("resize", handleResize);
-
-        // Run invalidateSize on mount as well to ensure initial render is correct
-        handleResize();
-
-        // Cleanup the event listener when the component unmounts
-        return () => {
-            window.removeEventListener("resize", handleResize);
-        };
-    }, [map]);
+        if (map) {
+            map.invalidateSize();  // Ensures the map resizes properly on mount
+        }
+    }, [map]);  // Trigger this effect once the map is available
 
     return null;
 };
 
-const MapComponent: React.FC<MapComponentProps> = ({center, zoom, markers = [], popUpText}) => {
+const MapComponent: React.FC<MapComponentProps> = ({
+                                                       center,
+                                                       zoom,
+                                                       markers = [],
+                                                       popUpText
+                                                   }) => {
     return (
         <MapContainer
             center={center}
             zoom={zoom}
             style={{height: "300px", width: "100%"}}
-            whenCreated={(map) => map.invalidateSize()}
         >
-            <ResizeMap /> {/* Hier wird das Resizing nach dem mounten des MapContainers getriggert */}
+            <ResizeMap/> {/* Here resizing gets triggered after mounting the map */}
             <TileLayer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
