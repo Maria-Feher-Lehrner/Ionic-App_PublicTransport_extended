@@ -1,9 +1,16 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
+
 import './MapTab.css';
+import '../theme/main.css';
+import MapComponent from "../components/MapComponent";
+import React from "react";
+//import { useLocation } from '../stores/location-store';
 
 const MapTab: React.FC = () => {
-  return (
+
+  //const { centerLocation, markerLocations, markerPopUps } = useLocation();
+
+    return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
@@ -16,7 +23,8 @@ const MapTab: React.FC = () => {
             <IonTitle size="large">Map</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <ExploreContainer name="Map page" />
+        <p>This is where map will go</p>
+        {/*<MapComponent center={centerLocation} zoom={15} markers={markerLocations} popUpText={markerPopUps}/>*/}
       </IonContent>
     </IonPage>
   );

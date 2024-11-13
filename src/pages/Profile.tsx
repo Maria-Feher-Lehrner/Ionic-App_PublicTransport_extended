@@ -14,7 +14,7 @@ const Profile: React.FC = () => {
 
   const locationCenter: [number, number] = [12.49011125596919, -69.9666370725565];
   const zoomLevel = 13;
-  const popUpText = "Just look for the prettiest donkey!";
+  const popUpText = ["Just look for the prettiest donkey!"];
 
   return (
         <IonPage>

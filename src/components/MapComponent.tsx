@@ -7,7 +7,7 @@ interface MapComponentProps {
     center: [number, number];  // Array with [latitude, longitude]
     zoom: number;
     markers?: [number, number][];
-    popUpText: string;
+    popUpText: string[];
 }
 
 const MapComponent: React.FC<MapComponentProps> = ({

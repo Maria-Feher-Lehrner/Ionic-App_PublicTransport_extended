@@ -26,8 +26,8 @@ Create a basic Ionic (React) Project:
         The list should be sortable by name or position
     The Map Tab should also display the Wiener Linien stations
         Use the stored data and display all entries
-        Display the location of the device/user
-        Add a zoom to current location button
+        Display the deviceLocation of the device/user
+        Add a zoom to current deviceLocation button
         Watch for position updates and update the marker on the map
     Save data to the (secure) storage
         Display a notification when data is saved
