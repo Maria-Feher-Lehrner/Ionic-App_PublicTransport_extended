@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useRef} from "react";
 import {MapContainer, TileLayer, Marker, Popup, useMap} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "../theme/main.css";
@@ -10,32 +10,41 @@ interface MapComponentProps {
     popUpText: string;
 }
 
-//Workaround, because tiles are not getting rendered properly / map is misaligned --> triggers resize
-const ResizeMap = () => {
-    const map = useMap();
-
-    useEffect(() => {
-        if (map) {
-            map.invalidateSize();  // Ensures the map resizes properly on mount
-        }
-    }, [map]);  // Trigger this effect once the map is available
-
-    return null;
-};
-
 const MapComponent: React.FC<MapComponentProps> = ({
                                                        center,
                                                        zoom,
                                                        markers = [],
                                                        popUpText
                                                    }) => {
+    //Workaround Approach to try and solve the misaligned rendering issue of the map --> forced resize --> NOT WORKING!!!
+    const mapRef = useRef<any>(null);
+
+    useEffect(() => {
+        // Trigger invalidateSize when the map is initialized or when window resizes
+        const map = mapRef.current;
+        if (map) {
+            map.invalidateSize();
+        }
+
+        // Optional: add a resize event listener to re-validate on window resize
+        const handleResize = () => {
+            if (map) {
+                map.invalidateSize();
+            }
+        };
+        window.addEventListener("resize", handleResize);
+
+        // Cleanup on unmount
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
     return (
         <MapContainer
             center={center}
             zoom={zoom}
-            style={{height: "300px", width: "100%"}}
+            style={{width: "100wh", height: "50vh" }}
+            ref={mapRef}
         >
-            <ResizeMap/> {/* Here resizing gets triggered after mounting the map */}
             <TileLayer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
