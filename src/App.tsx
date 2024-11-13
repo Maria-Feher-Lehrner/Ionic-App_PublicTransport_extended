@@ -15,7 +15,7 @@ import {homeOutline, mapOutline, personCircleOutline } from 'ionicons/icons';
 import HomeTab from './pages/HomeTab';
 import MapTab from './pages/MapTab';
 import Profile from './pages/Profile';
-//import {LocationProvider} from './stores/location-store';
+import {LocationProvider} from './stores/location-store';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -51,7 +51,7 @@ const App: React.FC = () => {
 
     return (
         <IonApp>
-            {/*<LocationProvider>*/}
+            <LocationProvider>
             <IonReactRouter>
                 <IonTabs>
                     <IonRouterOutlet>
@@ -78,7 +78,7 @@ const App: React.FC = () => {
                     </IonTabBar>
                 </IonTabs>
             </IonReactRouter>
-            {/*</LocationProvider>*/}
+            </LocationProvider>
         </IonApp>
     );
 };

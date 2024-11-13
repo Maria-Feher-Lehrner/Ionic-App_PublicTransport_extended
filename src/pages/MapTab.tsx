@@ -4,11 +4,11 @@ import './MapTab.css';
 import '../theme/main.css';
 import MapComponent from "../components/MapComponent";
 import React from "react";
-//import { useLocation } from '../stores/location-store';
+import { useLocation } from '../stores/location-store';
 
 const MapTab: React.FC = () => {
 
-  //const { centerLocation, markerLocations, markerPopUps } = useLocation();
+  const { centerLocation, markerLocations, markerPopUps } = useLocation();
 
     return (
     <IonPage>
@@ -24,7 +24,7 @@ const MapTab: React.FC = () => {
           </IonToolbar>
         </IonHeader>
         <p>This is where map will go</p>
-        {/*<MapComponent center={centerLocation} zoom={15} markers={markerLocations} popUpText={markerPopUps}/>*/}
+        <MapComponent center={centerLocation} zoom={15} markers={markerLocations} popUpText={markerPopUps}/>
       </IonContent>
     </IonPage>
   );
