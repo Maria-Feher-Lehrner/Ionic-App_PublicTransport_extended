@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from "@ionic/react";
-import { useLocation } from "../stores/location-store";  // Assuming this is where LocationContext is stored
+import { useLocation } from "../stores/location-store";
 import './HomeTab.css';
 import '../theme/main.css';
+import {useHistory} from "react-router-dom";
 
 interface StationData {
     name: string;
@@ -15,6 +16,11 @@ const HomeTab: React.FC = () => {
         name: markerPopUps[index],
         location
     }));
+
+    const history = useHistory();
+    const navigateToStationEntryPage = () => {
+        history.push("/add-station");
+    }
 
     const [sortConfig, setSortConfig] = useState<{ key: string; direction: string }>({ key: "name", direction: "asc" });
 
@@ -87,7 +93,7 @@ const HomeTab: React.FC = () => {
                             </tbody>
                         </table>
                     </div>
-                    <button>Add Location</button>
+                    <button onClick={navigateToStationEntryPage}>Add Location</button>
                 </div>
             </IonContent>
         </IonPage>

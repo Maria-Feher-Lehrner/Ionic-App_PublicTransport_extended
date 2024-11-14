@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import { Geolocation } from '@capacitor/geolocation';
+import React, {createContext, useContext, useEffect, useState} from 'react';
+import {Geolocation} from '@capacitor/geolocation';
 import Papa from 'papaparse';
 
 // Default to Vienna city center if location isn’t available
@@ -18,18 +18,31 @@ interface LocationContextProps {
     centerLocation: [number, number];
     markerLocations: [number, number][];
     markerPopUps: string[];
+    addStation: (stationName: string, location: [number, number]) => void;
 }
 
 const LocationContext = createContext<LocationContextProps>({
     centerLocation: DEFAULT_LOCATION,
     markerLocations: [DEFAULT_LOCATION],
     markerPopUps: ["Vienna City Center"],
+    addStation: () => {
+    } // Placeholder
 });
 
-export const LocationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const LocationProvider: React.FC<{ children: React.ReactNode }> = ({children}) => {
     const [centerLocation, setCenterLocation] = useState<[number, number]>(DEFAULT_LOCATION);
     const [markerLocations, setMarkerLocations] = useState<[number, number][]>([DEFAULT_LOCATION]);
     const [markerPopUps, setMarkerPopUps] = useState<string[]>(["Vienna City Center"]);
+
+    const addStation = (stationName: string, location: [number, number]) => {
+        // Update the state with the new station
+        setMarkerLocations(prevLocations => [...prevLocations, location]);
+        setMarkerPopUps(prevPopUps => [...prevPopUps, stationName]);
+
+        // Persist the new station data in localStorage
+        localStorage.setItem("markerLocations", JSON.stringify([...markerLocations, location]));
+        localStorage.setItem("markerPopUps", JSON.stringify([...markerPopUps, stationName]));
+    }
 
     useEffect(() => {
         // Fetch device location
@@ -66,7 +79,7 @@ export const LocationProvider: React.FC<{ children: React.ReactNode }> = ({ chil
                     skipEmptyLines: true,
                     complete: (results: Papa.ParseResult<any>) => {
                         results.data.forEach((item: any) => {
-                            const { HALTESTELLEN_ID, NAME, WGS84_LAT, WGS84_LON } = item;
+                            const {HALTESTELLEN_ID, NAME, WGS84_LAT, WGS84_LON} = item;
                             const lat = parseFloat(WGS84_LAT);
                             const lon = parseFloat(WGS84_LON);
 
@@ -119,11 +132,10 @@ export const LocationProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     }, []);
 
     return (
-        <LocationContext.Provider value={{ centerLocation, markerLocations, markerPopUps }}>
+        <LocationContext.Provider value={{centerLocation, markerLocations, markerPopUps, addStation}}>
             {children}
         </LocationContext.Provider>
     );
 };
 
-// Custom hook to access location context
 export const useLocation = () => useContext(LocationContext);

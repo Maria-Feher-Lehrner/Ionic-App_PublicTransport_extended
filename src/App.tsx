@@ -1,5 +1,5 @@
 
-import {Redirect, Route} from 'react-router-dom';
+import {Redirect, Route, Switch} from 'react-router-dom';
 import {
     IonApp,
     IonIcon,
@@ -15,6 +15,7 @@ import {homeOutline, mapOutline, personCircleOutline } from 'ionicons/icons';
 import HomeTab from './pages/HomeTab';
 import MapTab from './pages/MapTab';
 import ProfileTab from './pages/ProfileTab';
+import StationEntryPage from "./pages/StationEntryPage";
 import {LocationProvider} from './stores/location-store';
 import { addIcons } from "ionicons";
 import { pinOutline, locationOutline } from "ionicons/icons";
@@ -54,6 +55,7 @@ import '@ionic/react/css/palettes/dark.system.css';
 /* Theme variables */
 import './theme/variables.css';
 
+
 setupIonicReact();
 
 const App: React.FC = () => {
@@ -71,6 +73,10 @@ const App: React.FC = () => {
                             <Redirect to="/home-tab" />
                         </Route>
                     </IonRouterOutlet>
+                    <Switch>
+                        <Route exact path="/" component={HomeTab} />
+                        <Route exact path="/add-station" component={StationEntryPage} />
+                    </Switch>
                     <IonTabBar slot="bottom">
                         <IonTabButton tab="home" href="/home-tab">
                             <IonIcon aria-hidden="true" icon={homeOutline}/>
