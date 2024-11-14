@@ -10,7 +10,7 @@ const appDescription = packageJson.description;
 const developerName = "Maria Feher-Lehrner";
 const developerAddress = "Bringamosa 2-Z, Santa Cruz, Aruba";
 
-const Profile: React.FC = () => {
+const ProfileTab: React.FC = () => {
 
   const locationCenter: [number, number] = [12.49011125596919, -69.9666370725565];
   const zoomLevel = 13;
@@ -45,4 +45,4 @@ const Profile: React.FC = () => {
     );
 };
 
-export default Profile;
+export default ProfileTab;

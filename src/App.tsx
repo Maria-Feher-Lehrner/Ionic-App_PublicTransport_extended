@@ -14,7 +14,7 @@ import {IonReactRouter} from '@ionic/react-router';
 import {homeOutline, mapOutline, personCircleOutline } from 'ionicons/icons';
 import HomeTab from './pages/HomeTab';
 import MapTab from './pages/MapTab';
-import Profile from './pages/Profile';
+import ProfileTab from './pages/ProfileTab';
 import {LocationProvider} from './stores/location-store';
 
 /* Core CSS required for Ionic components to work properly */
@@ -57,7 +57,7 @@ const App: React.FC = () => {
                     <IonRouterOutlet>
                         <Route path="/home-tab" component={HomeTab} exact />
                         <Route path="/map-tab" component={MapTab} exact />
-                        <Route path="/profile-tab" component={Profile} />
+                        <Route path="/profile-tab" component={ProfileTab} />
                         <Route exact path="/">
                             <Redirect to="/home-tab" />
                         </Route>

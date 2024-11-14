@@ -1,5 +1,6 @@
 import React, {useEffect, useRef} from "react";
 import {MapContainer, TileLayer, Marker, Popup, useMap} from "react-leaflet";
+import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "../theme/main.css";
 
@@ -8,13 +9,17 @@ interface MapComponentProps {
     zoom: number;
     markers?: [number, number][];
     popUpText: string[];
+    height?: string;
+    width?: string;
 }
 
 const MapComponent: React.FC<MapComponentProps> = ({
                                                        center,
                                                        zoom,
                                                        markers = [],
-                                                       popUpText
+                                                       popUpText,
+                                                       height = "50vh",  // default height if not specified
+                                                       width = "100wh"   // default width if not specified
                                                    }) => {
     //Workaround Approach to try and solve the misaligned rendering issue of the map --> forced resize --> NOT WORKING!!!
     const mapRef = useRef<any>(null);
@@ -42,7 +47,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
         <MapContainer
             center={center}
             zoom={zoom}
-            style={{width: "100wh", height: "50vh" }}
+            style={{width, height}}
             ref={mapRef}
         >
             <TileLayer
@@ -52,7 +57,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
             {markers.map((position, idx) => (
                 <Marker key={idx} position={position}>
                     <Popup>
-                        {popUpText}
+                        {popUpText[idx]}
                     </Popup>
                 </Marker>
             ))}
