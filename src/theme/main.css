@@ -1,3 +1,13 @@
 .content-section{
     margin: 5% 10%;
 }
+
+.location-icon {
+    font-size: 35px;
+    color: red;
+}
+
+.station-icon {
+    font-size: 25px;
+    color: blue;
+}

@@ -1,14 +1,17 @@
 import React, {useEffect, useRef} from "react";
 import {MapContainer, TileLayer, Marker, Popup, useMap} from "react-leaflet";
-import L from "leaflet";
+import {deviceLocationIcon, locationMarkerIcon} from "../assets/mapIcons"
 import "leaflet/dist/leaflet.css";
 import "../theme/main.css";
+
 
 interface MapComponentProps {
     center: [number, number];  // Array with [latitude, longitude]
     zoom: number;
     markers?: [number, number][];
     popUpText: string[];
+    centerIcon?: any;
+    markerIcon?: any;
     height?: string;
     width?: string;
 }
@@ -18,6 +21,8 @@ const MapComponent: React.FC<MapComponentProps> = ({
                                                        zoom,
                                                        markers = [],
                                                        popUpText,
+                                                       centerIcon,
+                                                       markerIcon,
                                                        height = "50vh",  // default height if not specified
                                                        width = "100wh"   // default width if not specified
                                                    }) => {
@@ -32,15 +37,15 @@ const MapComponent: React.FC<MapComponentProps> = ({
         }
 
         // Optional: add a resize event listener to re-validate on window resize
-        const handleResize = () => {
+        /*const handleResize = () => {
             if (map) {
                 map.invalidateSize();
             }
         };
-        window.addEventListener("resize", handleResize);
+        window.addEventListener("resize", handleResize);*/
 
         // Cleanup on unmount
-        return () => window.removeEventListener("resize", handleResize);
+        //return () => window.removeEventListener("resize", handleResize);
     }, []);
 
     return (
@@ -54,11 +59,14 @@ const MapComponent: React.FC<MapComponentProps> = ({
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             />
+            {/* Main center marker */}
+            <Marker position={center} icon={centerIcon}>
+                <Popup>{popUpText[0]}</Popup>
+            </Marker>
+            {/* Additional markers */}
             {markers.map((position, idx) => (
-                <Marker key={idx} position={position}>
-                    <Popup>
-                        {popUpText[idx]}
-                    </Popup>
+                <Marker key={idx} position={position} icon={markerIcon}>
+                    <Popup>{popUpText[idx + 1]}</Popup>
                 </Marker>
             ))}
         </MapContainer>

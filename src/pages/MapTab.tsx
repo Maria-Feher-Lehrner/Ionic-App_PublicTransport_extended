@@ -4,6 +4,7 @@ import '../theme/main.css';
 import MapComponent from "../components/MapComponent";
 import React from "react";
 import {useLocation} from '../stores/location-store';
+import { deviceLocationIcon, locationMarkerIcon } from "../assets/mapIcons";
 
 const MapTab: React.FC = () => {
 
@@ -27,7 +28,14 @@ const MapTab: React.FC = () => {
                     </IonToolbar>
                 </IonHeader>
                 <div className="content-section">
-                    <MapComponent center={centerLocation} zoom={12} markers={markerLocations} popUpText={markerPopUps} height={"100vh"} width={"100wh"}/>
+                    <MapComponent
+                        center={centerLocation}       // Main map center (device location or default)
+                        zoom={12}
+                        markers={markerLocations}     // All stations
+                        popUpText={markerPopUps}
+                        centerIcon={deviceLocationIcon}       // Red woman icon for device
+                        markerIcon={locationMarkerIcon}      // Blue pins for stations
+                    />
                 </div>
             </IonContent>
         </IonPage>

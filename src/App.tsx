@@ -16,6 +16,15 @@ import HomeTab from './pages/HomeTab';
 import MapTab from './pages/MapTab';
 import ProfileTab from './pages/ProfileTab';
 import {LocationProvider} from './stores/location-store';
+import { addIcons } from "ionicons";
+import { pinOutline, locationOutline } from "ionicons/icons";
+
+
+addIcons({
+    "pin-outline": pinOutline,
+    "location-outline": locationOutline,
+});
+
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';

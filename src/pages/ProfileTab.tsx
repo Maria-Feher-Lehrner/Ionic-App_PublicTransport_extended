@@ -3,6 +3,7 @@ import packageJson from '../../package.json';
 import './Profile.css';
 import '../theme/main.css';
 import MapComponent from "../components/MapComponent";
+import { locationMarkerIcon } from "../assets/mapIcons";
 
 const appVersion = packageJson.version;
 const appName = packageJson.name;
@@ -37,7 +38,14 @@ const ProfileTab: React.FC = () => {
                     <p><strong>Developed by:</strong> {developerName}</p>
                     <p><strong>Address:</strong> {developerAddress}</p>
                     <h2>Find me here:</h2>
-                  <MapComponent center={locationCenter} zoom={zoomLevel} markers={[locationCenter]} popUpText={popUpText}/>
+                    <MapComponent
+                        center={locationCenter}
+                        zoom={zoomLevel}
+                        markers={[locationCenter]}
+                        popUpText={popUpText}
+                        centerIcon={locationMarkerIcon}
+                        markerIcon={locationMarkerIcon}
+                    />
                 </div>
 
             </IonContent>
