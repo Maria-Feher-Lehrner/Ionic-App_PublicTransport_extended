@@ -1,6 +1,5 @@
 import {IonContent, IonHeader, IonPage, IonTitle, IonToolbar} from '@ionic/react';
 import packageJson from '../../package.json';
-import './Profile.css';
 import '../theme/main.css';
 import MapComponent from "../components/MapComponent";
 import { locationMarkerIcon } from "../assets/mapIcons";

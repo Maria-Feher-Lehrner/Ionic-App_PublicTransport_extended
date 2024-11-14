@@ -1,0 +1,90 @@
+/* Ensure the content section takes up the entire page height */
+.content-section {
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Ensure it fills the height of the page */
+    margin: 5% 10%; /* Existing margins */
+}
+
+/* This container holds the table and allows it to grow */
+.table-container {
+    flex-grow: 1; /* This ensures it takes up all available space except the button */
+    overflow-y: auto; /* Allow vertical scrolling if the table overflows */
+    margin-bottom: 10px; /* Space between the table and the button */
+}
+
+/* Table styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed; /* Ensures consistent column widths */
+    margin-top: 20px;
+}
+
+/* Style for table cells and header */
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Header styles */
+th {
+    cursor: pointer;
+    color: #007aff; /* Ion blue color for headers */
+    position: relative;
+}
+
+/* Hover effect on table headers */
+th:hover {
+    text-decoration: underline;
+}
+
+/* Row hover effect */
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Sort arrow styles */
+th.sortable {
+    padding-right: 30px;
+}
+
+th.sortable:after {
+    content: "";
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #007aff;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+th.sorted-asc:after {
+    border-top: none;
+    border-bottom: 5px solid #007aff;
+    opacity: 1;
+}
+
+th.sorted-desc:after {
+    border-top: 5px solid #007aff;
+    opacity: 1;
+}
+
+/* Button at the bottom */
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: #007aff;
+    color: white;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #005bb5;
+}
