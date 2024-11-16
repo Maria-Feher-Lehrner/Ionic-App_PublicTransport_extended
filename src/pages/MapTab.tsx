@@ -1,5 +1,5 @@
 import {IonContent, IonHeader, IonPage, IonTitle, IonToolbar} from '@ionic/react';
-import './MapTab.css';
+import './mapTab.css';
 import '../theme/main.css';
 import MapComponent from "../components/MapComponent";
 import React from "react";

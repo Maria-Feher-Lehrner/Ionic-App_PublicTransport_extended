@@ -1,14 +1,20 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonInput, IonLabel, IonItem, IonDatetime } from "@ionic/react";
 import { useLocation } from "../stores/location-store";  // Assuming this is where LocationContext is stored
-import { useHistory } from "react-router-dom";
+import '../theme/main.css';
+import './stationEntry.css'
 
 const AddStationPage: React.FC = () => {
-    const { addStation } = useLocation(); // Access addStation method from context
+    const { centerLocation, addStation } = useLocation(); // Access addStation method from context
     const [stationName, setStationName] = useState<string>("");
     const [latitude, setLatitude] = useState<number>(0);
     const [longitude, setLongitude] = useState<number>(0);
-    const history = useHistory();
+
+    useEffect(() => {
+        // Update latitude and longitude when centerLocation changes
+        setLatitude(centerLocation[0]);
+        setLongitude(centerLocation[1]);
+    }, [centerLocation]);
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
@@ -22,8 +28,6 @@ const AddStationPage: React.FC = () => {
         // Add new station to the store
         addStation(stationName, [latitude, longitude]);
 
-        // Navigate back to the main page (HomeTab)
-        history.push("/");  // Or use the correct route to go back to the home page
     };
 
     return (
@@ -34,37 +38,37 @@ const AddStationPage: React.FC = () => {
                 </IonToolbar>
             </IonHeader>
             <IonContent fullscreen>
-                <form onSubmit={handleSubmit}>
-                    <IonItem>
+                <form className="location-entry-form" onSubmit={handleSubmit}>
+                    <IonItem class-name="form-field">
                         <IonLabel position="floating">Station Name</IonLabel>
                         <IonInput
                             value={stationName}
-                            onIonChange={(e) => setStationName(e.detail.value!)}
-                            required
+                            onIonChange={(e) => setStationName(e.detail.value || "")}
+                            placeholder="Enter station name"
                         />
                     </IonItem>
 
-                    <IonItem>
+                    <IonItem class-name="form-field">
                         <IonLabel position="floating">Latitude</IonLabel>
                         <IonInput
                             type="number"
                             value={latitude}
-                            onIonChange={(e) => setLatitude(parseFloat(e.detail.value!))}
-                            required
+                            step="any" // Allows decimals
+                            onIonChange={(e) => setLatitude(parseFloat(e.detail.value!) || latitude)}
                         />
                     </IonItem>
 
-                    <IonItem>
+                    <IonItem class-name="form-field">
                         <IonLabel position="floating">Longitude</IonLabel>
                         <IonInput
                             type="number"
                             value={longitude}
-                            onIonChange={(e) => setLongitude(parseFloat(e.detail.value!))}
-                            required
+                            step="any" // Allows decimals
+                            onIonChange={(e) => setLongitude(parseFloat(e.detail.value!) || longitude)}
                         />
                     </IonItem>
 
-                    <IonButton expand="full" type="submit">Add Station</IonButton>
+                    <IonButton expand="full" type="submit">Save</IonButton>
                 </form>
             </IonContent>
         </IonPage>

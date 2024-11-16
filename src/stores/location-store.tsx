@@ -30,18 +30,33 @@ const LocationContext = createContext<LocationContextProps>({
 });
 
 export const LocationProvider: React.FC<{ children: React.ReactNode }> = ({children}) => {
+
     const [centerLocation, setCenterLocation] = useState<[number, number]>(DEFAULT_LOCATION);
     const [markerLocations, setMarkerLocations] = useState<[number, number][]>([DEFAULT_LOCATION]);
     const [markerPopUps, setMarkerPopUps] = useState<string[]>(["Vienna City Center"]);
 
     const addStation = (stationName: string, location: [number, number]) => {
-        // Update the state with the new station
-        setMarkerLocations(prevLocations => [...prevLocations, location]);
-        setMarkerPopUps(prevPopUps => [...prevPopUps, stationName]);
 
-        // Persist the new station data in localStorage
-        localStorage.setItem("markerLocations", JSON.stringify([...markerLocations, location]));
-        localStorage.setItem("markerPopUps", JSON.stringify([...markerPopUps, stationName]));
+        try {
+            // Update the state with the new station
+            const updatedLocations = [...markerLocations, location];
+            const updatedPopUps = [...markerPopUps, stationName];
+
+
+            setMarkerLocations(prevLocations => [...prevLocations, location]);
+            setMarkerPopUps(prevPopUps => [...prevPopUps, stationName]);
+
+            // Persist the new station data in localStorage
+            localStorage.setItem("markerLocations", JSON.stringify([...markerLocations, location]));
+            localStorage.setItem("markerPopUps", JSON.stringify([...markerPopUps, stationName]));
+
+            alert(`Station "${stationName}" added successfully!`);
+        } catch (error) {
+            console.error("Failed to add station:", error);
+
+            // Show error alert
+            alert("An error occurred while adding the station. Please try again.");
+        }
     }
 
     useEffect(() => {
