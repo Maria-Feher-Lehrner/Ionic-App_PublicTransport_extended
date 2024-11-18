@@ -1,10 +1,8 @@
-import {IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonAvatar, IonButton, IonIcon,} from '@ionic/react';
+import {IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonIcon,} from '@ionic/react';
 import packageJson from '../../package.json';
 import '../theme/main.css';
 import './profileTab.css';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
-import { FileChooser } from '@ionic-native/file-chooser';
-import { Filesystem, Encoding } from '@capacitor/filesystem';
 import { camera } from 'ionicons/icons';
 import MapComponent from "../components/MapComponent";
 import {locationMarkerIcon} from "../assets/mapIcons"
@@ -47,7 +45,7 @@ const ProfileTab: React.FC = () => {
                 // For Mobile: Use the Capacitor Camera plugin
                 const photo = await Camera.getPhoto({
                     source: CameraSource.Photos, // Open gallery
-                    resultType: CameraResultType.Uri, // Get image as Base64
+                    resultType: CameraResultType.DataUrl,
                     quality: 90, // Optional: adjust image quality
                 });
                 if (photo && photo.webPath) {
@@ -67,47 +65,6 @@ const ProfileTab: React.FC = () => {
     React.useEffect(() => {
         checkPlatform();
     }, []);
-            /*}
-
-            let fileUri: string | undefined;
-
-            // For Web: Use input[type="file"]
-            if (window.Cypress || typeof window !== 'undefined' && !window.Capacitor) {
-                const input = document.createElement('input');
-                input.type = 'file';
-                input.accept = 'image/*';
-                input.click();
-
-                input.onchange = async (e: any) => {
-                    const file = e.target.files[0];
-                    if (file) {
-                        const reader = new FileReader();
-                        reader.onloadend = () => {
-                            // This will give you a base64 string
-                            setAvatarImage(reader.result as string);
-                        };
-                        reader.readAsDataURL(file);
-                    }
-                };
-            } else {
-                // For Mobile: Use FileChooser to pick file
-                const uri = await FileChooser.open();
-                fileUri = uri;
-                const result = await Filesystem.readFile({
-                    path: uri,
-                    encoding: Encoding.UTF8,
-                });
-
-                // Convert to base64 (if required)
-                if (typeof result.data === "string") {
-                    const base64Image = `data:image/jpeg;base64,${btoa(result.data)}`;
-                    setAvatarImage(base64Image);
-                }
-            }
-        } catch (error) {
-            console.error('Error picking image:', error);
-        }
-    };*/
 
     return (
         <IonPage>
@@ -127,7 +84,7 @@ const ProfileTab: React.FC = () => {
                         <IonTitle size="large">Profile</IonTitle>
                     </IonToolbar>
                 </IonHeader>
-                <div className="content-section">
+                <div className="profile-section">
                     <h1>About this App</h1>
                     <p>{appDescription}</p>
                     <p><strong>App name:</strong> {appName}</p>

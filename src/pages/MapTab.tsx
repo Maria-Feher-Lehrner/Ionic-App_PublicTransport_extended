@@ -1,14 +1,20 @@
-import {IonContent, IonHeader, IonPage, IonTitle, IonToolbar} from '@ionic/react';
+import {IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton} from '@ionic/react';
 import './mapTab.css';
 import '../theme/main.css';
 import MapComponent from "../components/MapComponent";
 import React from "react";
 import {useLocation} from '../stores/location-store';
-import { deviceLocationIcon, locationMarkerIcon } from "../assets/mapIcons";
+import {deviceLocationIcon, locationMarkerIcon} from "../assets/mapIcons";
 
 const MapTab: React.FC = () => {
 
-    const {centerLocation, markerLocations, markerPopUps} = useLocation();
+    const {
+        centerLocation,
+        deviceLocation,
+        markerLocations,
+        markerPopUps,
+        recenterToDeviceLocation,
+    } = useLocation();
 
     console.log("Center location in MapTab:", centerLocation);
     console.log("Marker locations in MapTab:", markerLocations);
@@ -36,6 +42,14 @@ const MapTab: React.FC = () => {
                         centerIcon={deviceLocationIcon}       // Red woman icon for device
                         markerIcon={locationMarkerIcon}      // Blue pins for stations
                     />
+                    {deviceLocation && (
+                        <IonButton
+                            onClick={recenterToDeviceLocation}
+                            className="recenter-button"
+                        >
+                            Recenter to My Location
+                        </IonButton>
+                    )}
                 </div>
             </IonContent>
         </IonPage>

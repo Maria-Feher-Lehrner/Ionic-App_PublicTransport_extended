@@ -60,9 +60,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             />
             {/* Main center marker */}
-            <Marker position={center} icon={centerIcon}>
-                <Popup>{popUpText[0]}</Popup>
-            </Marker>
+
             {/* Additional markers */}
             {markers.map((position, idx) => (
                 <Marker key={idx} position={position} icon={markerIcon}>

@@ -2,8 +2,8 @@ import React, {createContext, useContext, useEffect, useState} from 'react';
 import {Geolocation} from '@capacitor/geolocation';
 import Papa from 'papaparse';
 
-// Default to Vienna city center if location isn’t available
-const DEFAULT_LOCATION: [number, number] = [48.2082, 16.3738];
+
+const DEFAULT_LOCATION: [number, number] = [48.2082, 16.3738]; // Vienna City Center as Default map center location
 const DATA_URL = 'https://data.wien.gv.at/csv/wienerlinien-ogd-haltestellen.csv';
 
 // Define types for the parsed CSV data
@@ -16,33 +16,33 @@ interface StationData {
 // Context for location and station data
 interface LocationContextProps {
     centerLocation: [number, number];
+    deviceLocation?: [number, number];
     markerLocations: [number, number][];
     markerPopUps: string[];
     addStation: (stationName: string, location: [number, number]) => void;
+    recenterToDeviceLocation: () => void;
 }
 
 const LocationContext = createContext<LocationContextProps>({
     centerLocation: DEFAULT_LOCATION,
+    deviceLocation: undefined,
     markerLocations: [DEFAULT_LOCATION],
     markerPopUps: ["Vienna City Center"],
     addStation: () => {
-    } // Placeholder
+    }, // Placeholder
+    recenterToDeviceLocation: () => {},
 });
 
 export const LocationProvider: React.FC<{ children: React.ReactNode }> = ({children}) => {
 
     const [centerLocation, setCenterLocation] = useState<[number, number]>(DEFAULT_LOCATION);
+    const [deviceLocation, setDeviceLocation] = useState<[number, number] | undefined>(undefined);
     const [markerLocations, setMarkerLocations] = useState<[number, number][]>([DEFAULT_LOCATION]);
     const [markerPopUps, setMarkerPopUps] = useState<string[]>(["Vienna City Center"]);
 
     const addStation = (stationName: string, location: [number, number]) => {
 
         try {
-            // Update the state with the new station
-            const updatedLocations = [...markerLocations, location];
-            const updatedPopUps = [...markerPopUps, stationName];
-
-
             setMarkerLocations(prevLocations => [...prevLocations, location]);
             setMarkerPopUps(prevPopUps => [...prevPopUps, stationName]);
 
@@ -53,11 +53,15 @@ export const LocationProvider: React.FC<{ children: React.ReactNode }> = ({child
             alert(`Station "${stationName}" added successfully!`);
         } catch (error) {
             console.error("Failed to add station:", error);
-
-            // Show error alert
             alert("An error occurred while adding the station. Please try again.");
         }
     }
+
+    const recenterToDeviceLocation = () => {
+        if (deviceLocation) {
+            setCenterLocation(deviceLocation);
+        }
+    };
 
     useEffect(() => {
         // Fetch device location
@@ -71,9 +75,9 @@ export const LocationProvider: React.FC<{ children: React.ReactNode }> = ({child
                     console.log("Device location ", deviceLocation);
 
                     // Update to use device location as center, and avoid duplicate labels
-                    setCenterLocation(deviceLocation);
-                    setMarkerLocations([deviceLocation, ...markerLocations.slice(1)]); // Replace initial default location
-                    setMarkerPopUps(["You are here", ...markerPopUps.slice(1)]); // Replace initial "Vienna City Center" popup
+                    setDeviceLocation(deviceLocation);
+                    //setMarkerLocations([deviceLocation, ...markerLocations.slice(1)]); // Replace initial default location
+                    //setMarkerPopUps(["You are here", ...markerPopUps.slice(1)]); // Replace initial "Vienna City Center" popup
                 }
             } catch (error) {
                 console.error("Device location fetch failed, using default location:", error);
@@ -147,7 +151,7 @@ export const LocationProvider: React.FC<{ children: React.ReactNode }> = ({child
     }, []);
 
     return (
-        <LocationContext.Provider value={{centerLocation, markerLocations, markerPopUps, addStation}}>
+        <LocationContext.Provider value={{centerLocation, deviceLocation, markerLocations, markerPopUps, addStation, recenterToDeviceLocation,}}>
             {children}
         </LocationContext.Provider>
     );
