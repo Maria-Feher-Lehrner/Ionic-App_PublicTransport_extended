@@ -60,11 +60,11 @@ export const LocationProvider: React.FC<{ children: React.ReactNode }> = ({child
     const recenterToDeviceLocation = () => {
         if (deviceLocation) {
             setCenterLocation(deviceLocation);
+            console.log("deviceLocation is now recentered to: ", centerLocation);
         }
     };
 
     useEffect(() => {
-        // Fetch device location
         const fetchDeviceLocation = async () => {
             try {
                 const permission = await Geolocation.requestPermissions();
@@ -73,11 +73,8 @@ export const LocationProvider: React.FC<{ children: React.ReactNode }> = ({child
                     const deviceLocation: [number, number] = [position.coords.latitude, position.coords.longitude];
 
                     console.log("Device location ", deviceLocation);
-
-                    // Update to use device location as center, and avoid duplicate labels
                     setDeviceLocation(deviceLocation);
-                    //setMarkerLocations([deviceLocation, ...markerLocations.slice(1)]); // Replace initial default location
-                    //setMarkerPopUps(["You are here", ...markerPopUps.slice(1)]); // Replace initial "Vienna City Center" popup
+
                 }
             } catch (error) {
                 console.error("Device location fetch failed, using default location:", error);

@@ -39,12 +39,17 @@ const MapTab: React.FC = () => {
                         zoom={12}
                         markers={markerLocations}     // All stations
                         popUpText={markerPopUps}
-                        centerIcon={deviceLocationIcon}       // Red woman icon for device
-                        markerIcon={locationMarkerIcon}      // Blue pins for stations
+                        centerIcon={deviceLocationIcon} // Red woman icon for device
+                        markerIcon={locationMarkerIcon} // Blue pins for stations
+                        deviceLocation={deviceLocation}
                     />
                     {deviceLocation && (
                         <IonButton
-                            onClick={recenterToDeviceLocation}
+                            //onClick={recenterToDeviceLocation}
+                            onClick={() => {
+                                recenterToDeviceLocation(); // Updates the centerLocation state
+                                console.log("Recenter button clicked");
+                            }}
                             className="recenter-button"
                         >
                             Recenter to My Location
