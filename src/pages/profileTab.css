@@ -1,3 +1,12 @@
+.profile-header {
+    display: flex;
+    align-items: center; /* Vertically align title and avatar */
+    justify-content: space-between; /* Space out title and avatar */
+    height: 100%; /* Ensure it takes the full height of IonToolbar */
+    padding: 0 16px; /* Add some horizontal padding */
+    box-sizing: border-box; /* Ensure padding doesn’t overflow */
+}
+
 .profile-section{
     display: flex;
     flex-direction: column;
@@ -7,15 +16,17 @@
 .avatar-icon {
     font-size: 40px;
     color: var(--ion-color-primary);
-    position: absolute;
-    top: 12px;
-    right: 16px;
     cursor: pointer;
+    display: flex;
+    align-items: center; /* Center icon within its container */
+    justify-content: center; /* Center icon horizontally */
+    height: 40px; /* Ensure consistent height */
+    width: 40px; /* Match the image dimensions */
+    margin: 0; /* Remove unintended margins */
 }
-
 .avatar-icon img {
-    width: 40px;
-    height: 40px;
+    width: 100%; /* Fill the container */
+    height: 100%;
     border-radius: 50%;
-    object-fit: cover;
+    object-fit: cover; /* Keep image proportions */
 }
