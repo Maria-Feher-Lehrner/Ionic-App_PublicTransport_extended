@@ -28,8 +28,7 @@ const LocationContext = createContext<LocationContextProps>({
     deviceLocation: undefined,
     markerLocations: [DEFAULT_LOCATION],
     markerPopUps: ["Vienna City Center"],
-    addStation: () => {
-    }, // Placeholder
+    addStation: () => {}, // Placeholder
     recenterToDeviceLocation: () => {},
 });
 
@@ -96,6 +95,7 @@ export const LocationProvider: React.FC<{ children: React.ReactNode }> = ({ chil
             const newPopUps = parsedData.map(station => station.name);
 
             // Check if the data has changed
+            // --> Requirement from exercise specifications to store api data persistent and update on every app-start.
             const storedLocations = JSON.parse(localStorage.getItem("publicTransportLocations") || "[]");
             const storedPopUps = JSON.parse(localStorage.getItem("publicTransportPopUps") || "[]");
 
@@ -127,10 +127,36 @@ export const LocationProvider: React.FC<{ children: React.ReactNode }> = ({ chil
                 const permission = await Geolocation.requestPermissions();
                 if (permission.location === 'granted') {
                     const position = await Geolocation.getCurrentPosition();
-                    setDeviceLocation([position.coords.latitude, position.coords.longitude]);
+                    if (position) {  // Check if position is not null
+                        const newLocation: [number, number] = [
+                            position.coords.latitude,
+                            position.coords.longitude,
+                        ];
+                        setDeviceLocation(newLocation);  // Update device location
+                    }
                 }
             } catch (error) {
                 console.error("Device location fetch failed:", error);
+            }
+        };
+
+        let watchId: string | undefined;
+
+        const watchDeviceLocation = async () => {
+            try {
+                watchId = await Geolocation.watchPosition({}, (position, error) => {
+                    if (error) {
+                        console.error("Location watch failed:", error);
+                    } else if (position) {
+                        const newLocation: [number, number] = [
+                            position.coords.latitude,
+                            position.coords.longitude,
+                        ];
+                        setDeviceLocation(newLocation);
+                    }
+                });
+            } catch (error) {
+                console.error("Error setting up location watch:", error);
             }
         };
 
@@ -152,9 +178,17 @@ export const LocationProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         };
 
         fetchDeviceLocation();
+        watchDeviceLocation();
         loadManualLocations();
         //loadPublicTransportData();
         fetchAndUpdatePublicTransportData();
+
+        // Cleanup function to stop watching when the component is unmounted
+        return () => {
+            if (watchId) {
+                Geolocation.clearWatch({ id: watchId });  // Now correctly uses the watchId
+            }
+        };
     }, []);
 
     const combinedLocations = [...publicTransportLocations, ...manualLocations];
