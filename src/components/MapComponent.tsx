@@ -33,21 +33,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
 
     useEffect(() => {
         // Trigger invalidateSize when the map is initialized or when window resizes
-        const map = mapRef.current;
-        if (map) {
-            map.invalidateSize();
-        }
-
-        // Optional: add a resize event listener to re-validate on window resize
-        /*const handleResize = () => {
-            if (map) {
-                map.invalidateSize();
-            }
-        };
-        window.addEventListener("resize", handleResize);*/
-
-        // Cleanup on unmount
-        //return () => window.removeEventListener("resize", handleResize);
+        setTimeout(() => {mapRef?.current.invalidateSize()}, 200);
     }, []);
 
     return (
@@ -58,7 +44,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
             style={{width, height}}
             ref={mapRef}
         >
-            <MapRecenter center={center} />
+            <MapRecenter center={center}/>
             <TileLayer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
