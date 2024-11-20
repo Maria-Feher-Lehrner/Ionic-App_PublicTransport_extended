@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonInput, IonLabel, IonItem, IonDatetime } from "@ionic/react";
-import { useLocation } from "../stores/location-store";  // Assuming this is where LocationContext is stored
+import { useLocation } from "../core/location-store";
 import '../theme/main.css';
 import './stationEntry.css'
 

@@ -3,7 +3,7 @@ import './mapTab.css';
 import '../theme/main.css';
 import MapComponent from "../components/MapComponent";
 import React from "react";
-import {useLocation} from '../stores/location-store';
+import {useLocation} from '../core/location-store';
 import {deviceLocationIcon, locationMarkerIcon} from "../assets/mapIcons";
 
 const MapTab: React.FC = () => {
@@ -45,7 +45,6 @@ const MapTab: React.FC = () => {
                     />
                     {deviceLocation && (
                         <IonButton
-                            //onClick={recenterToDeviceLocation}
                             onClick={() => {
                                 recenterToDeviceLocation(); // Updates the centerLocation state
                                 console.log("Recenter button clicked");

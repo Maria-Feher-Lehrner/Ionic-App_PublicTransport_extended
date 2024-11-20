@@ -16,7 +16,7 @@ import HomeTab from './pages/HomeTab';
 import MapTab from './pages/MapTab';
 import ProfileTab from './pages/ProfileTab';
 import StationEntryPage from "./pages/StationEntryPage";
-import {LocationProvider} from './stores/location-store';
+import {LocationProvider} from './core/location-store';
 import { addIcons } from "ionicons";
 import { pinOutline, locationOutline } from "ionicons/icons";
 

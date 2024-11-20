@@ -4,7 +4,6 @@ import '../theme/main.css';
 import './profileTab.css';
 import MapComponent from "../components/MapComponent";
 import {locationMarkerIcon} from "../assets/mapIcons"
-import React, {useState} from "react";
 import ImagePicker from "../components/Image-Picker";
 
 const appVersion = packageJson.version;

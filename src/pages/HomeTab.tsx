@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from "@ionic/react";
-import { useLocation } from "../stores/location-store";
+import { useLocation } from "../core/location-store";
 import './homeTab.css';
 import '../theme/main.css';
 import {useHistory} from "react-router-dom";
