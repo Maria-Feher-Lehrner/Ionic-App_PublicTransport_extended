@@ -1,5 +1,5 @@
 import React, {useEffect, useRef} from "react";
-import {MapContainer, TileLayer, Marker, Popup, useMap} from "react-leaflet";
+import {MapContainer, TileLayer, Marker, Popup,} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "../theme/main.css";
 import MapRecenter from "./MapRecenter"
@@ -70,7 +70,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
             ))}
             {deviceLocation && (
                 <Marker position={deviceLocation} icon={centerIcon}>
-                    <Popup>Your Device Location</Popup>
+                    <Popup>You are here!</Popup>
                 </Marker>
             )}
         </MapContainer>
