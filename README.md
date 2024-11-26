@@ -1,7 +1,12 @@
 # Ionic-App_PublicTransport_extended
 Basic Ionic project to display all public transport stops from Vienna via API csv import
 
-#This is a "Cross-Platform Advanced" classroom assignment with the following instructions:
+#Submission Notes for Instructor:
+ 
+ *) Fetch and save data logic: doesn't make a whole lot of practical sense because I didn't understand the intentions behind the instructions and I had to force a new state for GUI reaction in the end. 
+ *) Add new Stations Form Bug: Needs the user to actively click into the input field - even though values are prefilled and there is logic that should prevent this behaviour.
+
+#This is a "Cross-Platform Advanced" classroom assignment with the following requirements:
 
 Create a basic Ionic (React) Project:
 
